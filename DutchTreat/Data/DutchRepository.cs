@@ -1,8 +1,9 @@
 ﻿using DutchTreat.Data.Entities;
+using DutchTreat.Data.Interfaces;
 
 namespace DutchTreat.Data
 {
-    public class DutchRepository : IDutchRepository
+    public class DutchRepository : IDutchRepository<Product>
     {
         private readonly ApplicationDbContext _db;
         private readonly ILogger<DutchRepository> _logger;
@@ -13,7 +14,7 @@ namespace DutchTreat.Data
             _logger = logger;
         }
 
-        public IEnumerable<Product> GetAllProducts()
+        public IEnumerable<Product> GetAll()
         {
             try
             {

@@ -1,4 +1,6 @@
-using DutchTreat.Data;
+using DutchTreat.Controllers.Base;
+using DutchTreat.Data.Entities;
+using DutchTreat.Data.Interfaces;
 using DutchTreat.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -8,9 +10,9 @@ namespace DutchTreat.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IDutchRepository _repository;
+        private readonly IDutchRepository<Product> _repository;
 
-        public HomeController(ILogger<HomeController> logger, IDutchRepository repository)
+        public HomeController(ILogger<HomeController> logger, IDutchRepository<Product> repository)
         {            
             _logger = logger;
             _repository = repository;
@@ -31,13 +33,6 @@ namespace DutchTreat.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        public IActionResult Shop()
-        {
-            var results = _repository.GetAllProducts();
-
-            return View(results);
         }
 
 
