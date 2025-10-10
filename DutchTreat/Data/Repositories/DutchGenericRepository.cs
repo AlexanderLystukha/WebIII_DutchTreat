@@ -1,16 +1,19 @@
 ﻿using DutchTreat.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DutchTreat.Data.Repositories
 {    
     public class DutchGenericRepository<T> : IDutchRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _db;
-        private readonly ILogger<DutchRepository> _logger;
+        protected readonly ApplicationDbContext _db;
+        protected readonly DbSet<T> _dbSet;
+        protected readonly ILogger<DutchGenericRepository<T>> _logger;
         
 
-        public DutchGenericRepository(ApplicationDbContext db, ILogger<DutchRepository> logger)
+        public DutchGenericRepository(ApplicationDbContext db, ILogger<DutchGenericRepository<T>> logger)
         {
             _db = db;
+            _dbSet = db.Set<T>();
             _logger = logger;
         }
 
@@ -20,8 +23,7 @@ namespace DutchTreat.Data.Repositories
             {
                 _logger.LogInformation("GetAll was called...");
 
-                return _db.Set<T>()                            
-                            .ToList();
+                return _dbSet.ToList();
             }
             catch (Exception ex)
             {

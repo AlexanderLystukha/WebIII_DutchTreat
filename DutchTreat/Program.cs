@@ -19,7 +19,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<DutchSeeder>();
-builder.Services.AddScoped<IDutchRepository<Product>, DutchProductRepository>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 var app = builder.Build();
 

@@ -5,7 +5,7 @@ namespace DutchTreat.Data.Repositories
 {
     public class DutchOrderRepository : DutchGenericRepository<Order>, IDutchOrderRepository
     {
-        public DutchOrderRepository(ApplicationDbContext db, ILogger<DutchRepository> logger) : base(db, logger)
+        public DutchOrderRepository(ApplicationDbContext db, ILogger<DutchOrderRepository> logger) : base(db, logger)
         {
         }
 

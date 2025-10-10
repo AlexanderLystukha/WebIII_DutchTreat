@@ -8,10 +8,10 @@ namespace DutchTreat.Controllers.Base
 {
     public class BaseController<T> : Controller where T : class
     {
-        internal readonly ILogger<HomeController> _logger;
+        internal readonly ILogger<BaseController<T>> _logger;
         internal readonly IDutchRepository<T> _repository;
 
-        public BaseController(ILogger<HomeController> logger, IDutchRepository<T> repository)
+        public BaseController(ILogger<BaseController<T>> logger, IDutchRepository<T> repository)
         {
             _logger = logger;
             _repository = repository;
