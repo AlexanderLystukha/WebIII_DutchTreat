@@ -13,7 +13,7 @@ namespace DutchTreat.Controllers
 {
     public class OrdersController : BaseController<Order>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
 
         public OrdersController(ILogger<OrdersController> logger, IUnitOfWork unitOfWork) : base(logger, unitOfWork.OrderRepository)
         {

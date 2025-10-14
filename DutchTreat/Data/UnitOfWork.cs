@@ -28,8 +28,7 @@ namespace DutchTreat.Data
 
         }
 
-        private IDutchOrderRepository _orderRepository;
-        private bool disposedValue;
+        private IDutchOrderRepository _orderRepository;        
         private readonly ILogger<DutchOrderRepository> _orderLogger;
 
         public IDutchOrderRepository OrderRepository
@@ -38,10 +37,23 @@ namespace DutchTreat.Data
             {
                 if (_orderRepository == null)
                     this._orderRepository = new DutchOrderRepository(_context, _orderLogger);
-                return this.OrderRepository;
+                return _orderRepository;
             }
         }
 
+        private IDutchOrderItemRepository _orderItemRepository;        
+        private readonly ILogger<DutchOrderRepository> _orderItemLogger;
+        public IDutchOrderItemRepository OrderItemRepository
+        {
+            get
+            {
+                if (_orderItemRepository == null)
+                    this._orderRepository = new DutchOrderRepository(_context, _orderItemLogger);
+                return _orderItemRepository;
+            }
+        }
+
+        private bool disposedValue;
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
