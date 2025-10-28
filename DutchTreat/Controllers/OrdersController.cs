@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DutchTreat.Data;
 using DutchTreat.Data.Entities;
 using DutchTreat.Controllers.Base;
+using DutchTreat.Data.Interfaces;
 
 namespace DutchTreat.Controllers
 {
@@ -15,7 +16,7 @@ namespace DutchTreat.Controllers
     {
         private IUnitOfWork _unitOfWork;
 
-        public OrdersController(ILogger<OrdersController> logger, IUnitOfWork unitOfWork) : base(logger, unitOfWork.OrderRepository)
+        public OrdersController(ILogger<OrdersController> logger, IUnitOfWork unitOfWork) : base(logger, unitOfWork.GetRepository<IDutchRepository<Order>>())
         {
             _unitOfWork = unitOfWork;
         }

@@ -4,8 +4,9 @@ namespace DutchTreat.Data
 {
     public interface IUnitOfWork : IDisposable
     {        
-        IDutchProductRepository ProductRepository { get; }
-        IDutchOrderRepository OrderRepository { get; }
-        IDutchOrderItemRepository OrderItemRepository { get; }
+        T GetRepository<T>() where T : class;
+        //IDutchProductRepository ProductRepository { get; }
+        //IDutchOrderRepository OrderRepository { get; }
+        //IDutchOrderItemRepository OrderItemRepository { get; }
     }
 }

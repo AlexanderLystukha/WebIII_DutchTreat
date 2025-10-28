@@ -18,7 +18,7 @@ namespace DutchTreat.Controllers.Base
         }
 
         // GET: BaseController
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             var results = _repository.GetAll();
 

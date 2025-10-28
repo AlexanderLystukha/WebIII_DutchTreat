@@ -9,9 +9,19 @@ namespace DutchTreat.Controllers
     public class ProductController : BaseController<Product>
     {       
         private IUnitOfWork _unitOfWork;
-        public ProductController(ILogger<ProductController> logger, IUnitOfWork unitOfWork) : base(logger, unitOfWork.ProductRepository)
+        public ProductController(ILogger<ProductController> logger, IUnitOfWork unitOfWork) : base(logger, unitOfWork.GetRepository<IDutchRepository<Product>>())
         {
             _unitOfWork = unitOfWork;
+        }
+
+        public override ActionResult Index()
+        {
+            var result = ((IDutchProductRepository)_unitOfWork.GetRepository<IDutchRepository<Product>>())
+                                        .GetAll()
+                                        .OrderBy(p=>p.Category)
+                                        .ToList();
+               
+            return View(result);
         }
     }
 }

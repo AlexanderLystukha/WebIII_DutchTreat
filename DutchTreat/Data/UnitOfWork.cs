@@ -1,5 +1,6 @@
 ﻿using DutchTreat.Data.Interfaces;
 using DutchTreat.Data.Repositories;
+using DutchTreat.Data.Repositories.Helpers;
 
 namespace DutchTreat.Data
 {
@@ -7,51 +8,56 @@ namespace DutchTreat.Data
     {
 
         private ApplicationDbContext _context;
-
-        public UnitOfWork(ApplicationDbContext context, ILoggerFactory factory)
+        private readonly IRepositoryProvider _repositoryProvider;
+        public UnitOfWork(ApplicationDbContext context, IRepositoryProvider repositoryProvider, ILoggerFactory factory)
         {
             _context = context;
-            _productLogger = new Logger<DutchProductRepository>(factory);
-            _orderLogger = new Logger<DutchOrderRepository>(factory);
+            _repositoryProvider = repositoryProvider;
+            //_productLogger = new Logger<DutchProductRepository>(factory);
+            //_orderLogger = new Logger<DutchOrderRepository>(factory);
         }
 
-        private IDutchProductRepository _productRepository;
-        private readonly ILogger<DutchProductRepository> _productLogger;
-        public IDutchProductRepository ProductRepository
-        {
-            get
-            {
-                if (_productRepository == null)
-                    this._productRepository = new DutchProductRepository(_context, _productLogger);
-                return _productRepository;
-            }
-
+        public T GetRepository<T>() where T : class 
+        {        
+            return _repositoryProvider.GetRepository<T>();
         }
+        //private IDutchProductRepository _productRepository;
+        //private readonly ILogger<DutchProductRepository> _productLogger;
+        //public IDutchProductRepository ProductRepository
+        //{
+        //    get
+        //    {
+        //        if (_productRepository == null)
+        //            this._productRepository = new DutchProductRepository(_context, _productLogger);
+        //        return _productRepository;
+        //    }
 
-        private IDutchOrderRepository _orderRepository;        
-        private readonly ILogger<DutchOrderRepository> _orderLogger;
+        //}
 
-        public IDutchOrderRepository OrderRepository
-        {
-            get
-            {
-                if (_orderRepository == null)
-                    this._orderRepository = new DutchOrderRepository(_context, _orderLogger);
-                return _orderRepository;
-            }
-        }
+        //private IDutchOrderRepository _orderRepository;        
+        //private readonly ILogger<DutchOrderRepository> _orderLogger;
 
-        private IDutchOrderItemRepository _orderItemRepository;        
-        private readonly ILogger<DutchOrderRepository> _orderItemLogger;
-        public IDutchOrderItemRepository OrderItemRepository
-        {
-            get
-            {
-                if (_orderItemRepository == null)
-                    this._orderRepository = new DutchOrderRepository(_context, _orderItemLogger);
-                return _orderItemRepository;
-            }
-        }
+        //public IDutchOrderRepository OrderRepository
+        //{
+        //    get
+        //    {
+        //        if (_orderRepository == null)
+        //            this._orderRepository = new DutchOrderRepository(_context, _orderLogger);
+        //        return _orderRepository;
+        //    }
+        //}
+
+        //private IDutchOrderItemRepository _orderItemRepository;        
+        //private readonly ILogger<DutchOrderRepository> _orderItemLogger;
+        //public IDutchOrderItemRepository OrderItemRepository
+        //{
+        //    get
+        //    {
+        //        if (_orderItemRepository == null)
+        //            this._orderRepository = new DutchOrderRepository(_context, _orderItemLogger);
+        //        return _orderItemRepository;
+        //    }
+        //}
 
         private bool disposedValue;
         protected virtual void Dispose(bool disposing)
@@ -73,5 +79,7 @@ namespace DutchTreat.Data
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
+       
     }
 }

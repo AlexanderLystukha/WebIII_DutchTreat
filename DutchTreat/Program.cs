@@ -2,6 +2,7 @@ using DutchTreat.Data;
 using DutchTreat.Data.Entities;
 using DutchTreat.Data.Interfaces;
 using DutchTreat.Data.Repositories;
+using DutchTreat.Data.Repositories.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +22,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<DutchSeeder>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IRepositoryProvider, RepositoryProvider>();
 
 
 var app = builder.Build();
