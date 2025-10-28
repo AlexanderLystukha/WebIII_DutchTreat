@@ -1,4 +1,5 @@
 ﻿using DutchTreat.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using System.Text.Json;
 
 namespace DutchTreat.Data
@@ -18,6 +19,26 @@ namespace DutchTreat.Data
         {
             //Verify that the database exists. Hover over the method and read the documentation. 
             _db.Database.EnsureCreated();
+
+            if (!_db.Roles.Any()) {
+                _db.Roles.AddRange(
+                    [ new IdentityRole<int>("Admin"),
+                        new IdentityRole<int>("Normal"),
+                        new IdentityRole<int>("Supervisor") ]);
+                _db.SaveChanges();
+            }
+
+            if (!_db.Users.Any())
+            {
+                _db.Users.Add(new IdentityUser<int>
+                {
+                    Email = "admin@email.com",
+                    UserName = "admin"
+                });
+                _db.SaveChanges();
+                _db.UserRoles.Add(new IdentityUserRole<int> { UserId = 1, RoleId = 1 });
+                _db.SaveChanges();
+            }
 
             //If there are no products then create the sample data from art.json
             if (!_db.Products.Any())
