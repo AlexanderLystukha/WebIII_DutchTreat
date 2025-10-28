@@ -8,36 +8,36 @@ namespace DutchTreat.Data
     {
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _hosting;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public DutchSeeder(ApplicationDbContext context, IWebHostEnvironment hosting)
+        public DutchSeeder(ApplicationDbContext context, 
+                IWebHostEnvironment hosting, 
+                UserManager<ApplicationUser> userManager, 
+                RoleManager<IdentityRole<int>> roleManager)
         {
             _db = context;
             _hosting = hosting;     //will be used to find the full path of the project 
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        public void Seed()
+        public async Task Seed()
         {
             //Verify that the database exists. Hover over the method and read the documentation. 
             _db.Database.EnsureCreated();
-
-            if (!_db.Roles.Any()) {
-                _db.Roles.AddRange(
-                    [ new IdentityRole<int>("Admin"),
-                        new IdentityRole<int>("Normal"),
-                        new IdentityRole<int>("Supervisor") ]);
-                _db.SaveChanges();
+                        
+            if (!_roleManager.Roles.Any()) {
+                await _roleManager.CreateAsync(new IdentityRole<int>("Admin"));
+                await _roleManager.CreateAsync(new IdentityRole<int>("Normal"));
+                await _roleManager.CreateAsync(new IdentityRole<int>("Supervisor"));
             }
 
-            if (!_db.Users.Any())
-            {
-                _db.Users.Add(new IdentityUser<int>
-                {
-                    Email = "admin@email.com",
-                    UserName = "admin"
-                });
-                _db.SaveChanges();
-                _db.UserRoles.Add(new IdentityUserRole<int> { UserId = 1, RoleId = 1 });
-                _db.SaveChanges();
+            if (!_userManager.Users.Any())
+            {                
+                var user = new ApplicationUser() { UserName = "admin@email.com", Email = "admin@email.com"};                
+                await _userManager.CreateAsync(user, "VerySecureAdmin45%");  
+                await _userManager.AddToRoleAsync(user, "Admin");
             }
 
             //If there are no products then create the sample data from art.json

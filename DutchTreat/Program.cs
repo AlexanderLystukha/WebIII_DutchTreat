@@ -13,9 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
@@ -30,16 +31,16 @@ builder.Services.AddScoped<IRepositoryProvider, RepositoryProvider>();
 
 var app = builder.Build();
 
-RunSeeding(app);
+await RunSeeding(app);
 
-void RunSeeding(WebApplication app)
+async Task RunSeeding(WebApplication app)
 {
     var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
 
     using (var scope = scopeFactory.CreateScope())
     {
         var seeder = scope.ServiceProvider.GetService<DutchSeeder>();
-        seeder.Seed();
+        await seeder.Seed();
     }
 }
 
