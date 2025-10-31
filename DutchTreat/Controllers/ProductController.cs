@@ -2,10 +2,12 @@
 using DutchTreat.Data;
 using DutchTreat.Data.Entities;
 using DutchTreat.Data.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DutchTreat.Controllers
 {
+    [Authorize()]
     public class ProductController : BaseController<Product>
     {       
         private IUnitOfWork _unitOfWork;

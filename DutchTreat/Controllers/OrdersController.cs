@@ -9,9 +9,11 @@ using DutchTreat.Data;
 using DutchTreat.Data.Entities;
 using DutchTreat.Controllers.Base;
 using DutchTreat.Data.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DutchTreat.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OrdersController : BaseController<Order>
     {
         private IUnitOfWork _unitOfWork;
